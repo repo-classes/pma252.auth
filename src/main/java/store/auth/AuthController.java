@@ -6,18 +6,26 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @FeignClient(name = "auth", url = "http://auth:8080")
 public interface AuthController {
     
     @PostMapping("/auth/register")
-    public ResponseEntity<TokenOut> register(
-        @RequestBody RegisterIn in
+    public ResponseEntity<Void> register(
+        @RequestBody RegisterIn in,
+        @RequestHeader("Origin") String origin
     );
 
     @PostMapping("/auth/login")
-    public ResponseEntity<TokenOut> login(
-        @RequestBody LoginIn in
+    public ResponseEntity<Void> login(
+        @RequestBody LoginIn in,
+        @RequestHeader("Origin") String origin
+    );
+
+    @PostMapping("/auth/logout")
+    public ResponseEntity<Void> logout(
+        @RequestHeader("Origin") String origin
     );
 
     @PostMapping("/auth/solve")
